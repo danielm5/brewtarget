@@ -55,6 +55,11 @@
 # *
 # *         if [[ ! -f $(dirname $(which python))/python3 ]]; then ln -s $(which python) $(dirname $(which python))/python3; fi
 # *
+# *      Alternatively, you can set the environment variable PYTHON_EXE to point to your python.exe before
+# *      running this script. For example:
+# *
+# *         export PYTHON_EXE=/c/Python312/python.exe
+# *
 # *    - Getting Unicode input/output to work is fun.  We should already have a Unicode locale, but it seems we also
 # *      need to set PYTHONIOENCODING (see https://docs.python.org/3/using/cmdline.html#envvar-PYTHONIOENCODING, even
 # *      though it seems to imply you don't need to set it on recent versions of Python).
@@ -122,11 +127,30 @@
 #
 topDir=$(dirname $0)
 
+# Helper function to find a suitable python executable
+# Search priority:
+# 1. PYTHON_EXE environment variable if set
+# 2. python3 in PATH
+# 3. python in PATH
+which_python() {
+   exe_python="${PYTHON_EXE:-$(which python3)}"
+   # Check if exe_python is a valid file and not the Windows Store placeholder
+   if [ ! -f "$exe_python" ] || [[ "$exe_python" == *WindowsApps* ]]; then
+      exe_python=$(which python)
+   fi
+   # Check again if exe_python is valid and not the placeholder
+   if [ -z "$exe_python" ] || [ ! -f "$exe_python" ] || [[ "$exe_python" == *WindowsApps* ]]; then
+      echo "Error: a suitable python executable was not found. Please set PYTHON_EXE to point to your python.exe."
+      exit 1
+   fi
+   echo "$exe_python"
+}
+
 #
 # It's worth knowing exactly which instance of Python we're running as, eg, on MSYS2 on Windows there can be multiple
 # versions installed
 #
-export exe_python=$(which python3)
+export exe_python=$(which_python)
 echo "${exe_python} --version"
 ${exe_python} --version
 
@@ -142,13 +166,21 @@ fi
 # Now we can switch to the venv
 #
 pwd
-echo "source ${topDir}/.venv/bin/activate"
-source ${topDir}/.venv/bin/activate
+activate_script="${topDir}/.venv/bin/activate"
+if [ ! -f ${activate_script} ]; then
+   activate_script="${topDir}/.venv/Scripts/activate"
+fi
+if [ ! -f ${activate_script} ]; then
+   echo "Error: could not find the venv activate script"
+   exit 1
+fi
+echo "source ${activate_script}"
+source ${activate_script}
 
 #
 # And let's reassure ourselves that, with the changed paths of the venve, we're still running the same version of Python
 #
-export exe_python=$(which python3)
+export exe_python=$(which_python)
 echo "${exe_python} --version"
 ${exe_python} --version
 

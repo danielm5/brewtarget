@@ -103,34 +103,55 @@ match platform.system():
       # to install."  So now we do that instead.  (Note that MINGW_PACKAGE_PREFIX will normally be set to
       # "mingw-w64-x86_64".)  As in buildTool.py, we need to specify '--overwrite' options otherwise we'll get "error:
       # failed to commit transaction (conflicting files)".
-      #
-      log.info('Install pip (' + os.environ['MINGW_PACKAGE_PREFIX'] + '-python-pip) via pacman')
-      btUtils.abortOnRunFail(
-         subprocess.run(['pacman', '-S',
-                         '--noconfirm',
-                         '--overwrite', '*python*',
-                         '--overwrite', '*pip*',
-                         os.environ['MINGW_PACKAGE_PREFIX'] + '-python-pip'])
-      )
-      #
-      # Similarly, in the past, we were able to install setuptools as follows:
-      #
-      #    # See comment in scripts/buildTool.py about why we have to run pip via Python rather than just invoking pip
-      #    # directly eg via `shutil.which('pip3')`.
-      #    log.info('python -m pip install setuptools')
-      #    btUtils.abortOnRunFail(subprocess.run([sys.executable, '-m', 'pip', 'install', 'setuptools']))
-      #
-      # But, as of 2024-11, this gives an error "No module named pip.__main__; 'pip' is a package and cannot be directly
-      # executed".  So now we install via pacman instead.
-      #
-      log.info('Install setuptools (' + os.environ['MINGW_PACKAGE_PREFIX'] + '-python-setuptools) via pacman')
-      btUtils.abortOnRunFail(
-         subprocess.run(['pacman', '-S',
-                         '--noconfirm',
-#                         '--overwrite', '*python*',
-#                         '--overwrite', '*pip*',
-                         os.environ['MINGW_PACKAGE_PREFIX'] + '-python-setuptools'])
-      )
+      pacman = shutil.which('pacman')
+      if pacman is not None and pacman != '':
+         log.info('MSYS2 pacman detected at ' + pacman)
+         log.info('Install pip (' + os.environ['MINGW_PACKAGE_PREFIX'] + '-python-pip) via pacman')
+         btUtils.abortOnRunFail(
+            subprocess.run(['pacman', '-S',
+                           '--noconfirm',
+                           '--overwrite', '*python*',
+                           '--overwrite', '*pip*',
+                           os.environ['MINGW_PACKAGE_PREFIX'] + '-python-pip'])
+         )
+         #
+         # Similarly, in the past, we were able to install setuptools as follows:
+         #
+         #    # See comment in scripts/buildTool.py about why we have to run pip via Python rather than just invoking pip
+         #    # directly eg via `shutil.which('pip3')`.
+         #    log.info('python -m pip install setuptools')
+         #    btUtils.abortOnRunFail(subprocess.run([sys.executable, '-m', 'pip', 'install', 'setuptools']))
+         #
+         # But, as of 2024-11, this gives an error "No module named pip.__main__; 'pip' is a package and cannot be directly
+         # executed".  So now we install via pacman instead.
+         #
+         log.info('Install setuptools (' + os.environ['MINGW_PACKAGE_PREFIX'] + '-python-setuptools) via pacman')
+         btUtils.abortOnRunFail(
+            subprocess.run(['pacman', '-S',
+                           '--noconfirm',
+#                           '--overwrite', '*python*',
+#                           '--overwrite', '*pip*',
+                           os.environ['MINGW_PACKAGE_PREFIX'] + '-python-setuptools'])
+         )
+      else:
+         log.info('Assuming standard Windows environment')
+         # Run `python -m pip --version` to see if pip is already installed
+         if subprocess.run([sys.executable, '-m', 'pip', '--version']).returncode != 0:
+            # pip is not installed
+            log.info(
+               'Attempting to ensure latest version of pip is installed via  ' + sys.executable + ' -m ensurepip --upgrade'
+            )
+            btUtils.abortOnRunFail(subprocess.run([sys.executable, '-m', 'ensurepip', '--upgrade']))
+         else:
+            # pip is already installed, so try to upgrade it
+            log.info(
+               'Attempting to upgrade pip via  ' + sys.executable + ' -m pip install --upgrade pip'
+            )
+            btUtils.abortOnRunFail(subprocess.run([sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip']))
+         # See comment in scripts/buildTool.py about why we have to run pip via Python rather than just invoking pip
+         # directly eg via `shutil.which('pip3')`.
+         log.info('python -m pip install setuptools')
+         btUtils.abortOnRunFail(subprocess.run([sys.executable, '-m', 'pip', 'install', 'setuptools']))
    case 'Darwin':
       # Assuming it was Homebrew that installed Python, then, according to https://docs.brew.sh/Homebrew-and-Python,
       # it bundles various packages, including pip.  Since Python version 3.12, Homebrew marks itself as package manager
@@ -142,7 +163,7 @@ match platform.system():
       log.critical('Unrecognised platform: ' + platform.system())
       exit(1)
 
-exe_python = shutil.which('python3')
+exe_python = os.environ['exe_python'] if 'exe_python' in os.environ else shutil.which('python3')
 log.info('sys.version: ' + sys.version + '; exe_python: ' + exe_python + '; ' + sys.executable)
 
 #
