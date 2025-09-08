@@ -24,6 +24,7 @@ on:
     branches:
       - develop
       - "stable/**"
+      - issue746-build-with-msvc  # TEMPORARY - REMOVE THIS LINE WHEN MERGED
   pull_request:
     branches:
       - develop
