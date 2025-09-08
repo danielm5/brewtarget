@@ -51,14 +51,10 @@
 # *    - For historical reasons, Linux and other platforms need to run both Python v2 (still used by some bits of
 # *      system) and Python v3 (eg that you installed yourself) so there are usually two corresponding Python
 # *      executables, python2 and python3.  On Windows there is only whatever Python you installed and it's called
-# *      python.exe.  To make things consistent on Windows, we just make a softlink to python called python3:
+# *      python.exe. It is also common for multiple versions of Python to be installed in different locations.
+# *      Make sure that the python.exe you want to use is the one that appears first in your PATH, for example:
 # *
-# *         if [[ ! -f $(dirname $(which python))/python3 ]]; then ln -s $(which python) $(dirname $(which python))/python3; fi
-# *
-# *      Alternatively, you can set the environment variable PYTHON_EXE to point to your python.exe before
-# *      running this script. For example:
-# *
-# *         export PYTHON_EXE=/c/Python312/python.exe
+# *         export PATH=/c/Python312/python.exe:$PATH
 # *
 # *    - Getting Unicode input/output to work is fun.  We should already have a Unicode locale, but it seems we also
 # *      need to set PYTHONIOENCODING (see https://docs.python.org/3/using/cmdline.html#envvar-PYTHONIOENCODING, even
@@ -66,8 +62,8 @@
 # *
 # *         export PYTHONIOENCODING=utf8
 # *
-# *    - The version of Pip we install above does not put it in the "right" place.  Specifically it will not be in the
-# *      PATH when we run bt.  The following seems to be the least hacky way around this:
+# *    - When building with MSYS2 MINGW64, the version of Pip we install above does not put it in the "right" place.
+# *      Specifically it will not be in the PATH when we run bt.  The following seems to be the least hacky way around this:
 # *
 # *         curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 # *         python get-pip.py
@@ -75,6 +71,9 @@
 # *         rm get-pip.py
 # *
 # *      See https://stackoverflow.com/questions/48087004/installing-pip-on-msys for more discussion on this.
+# *
+# *      For non-MSYS2 Windows environments, either pip is already installed, or it will be installed when you
+# *      run the bt script.
 # *
 # **********************************************************************************************************************
 #-----------------------------------------------------------------------------------------------------------------------
@@ -128,19 +127,15 @@
 topDir=$(dirname $0)
 
 # Helper function to find a suitable python executable
-# Search priority:
-# 1. PYTHON_EXE environment variable if set
-# 2. python3 in PATH
-# 3. python in PATH
 which_python() {
-   exe_python="${PYTHON_EXE:-$(which python3)}"
+   exe_python=$(which python.exe)
    # Check if exe_python is a valid file and not the Windows Store placeholder
-   if [ ! -f "$exe_python" ] || [[ "$exe_python" == *WindowsApps* ]]; then
-      exe_python=$(which python)
+   if [ -z "$exe_python" ] || [ ! -f "$exe_python" ] || [[ "$exe_python" == *WindowsApps* ]]; then
+      exe_python=$(which python3)
    fi
    # Check again if exe_python is valid and not the placeholder
    if [ -z "$exe_python" ] || [ ! -f "$exe_python" ] || [[ "$exe_python" == *WindowsApps* ]]; then
-      echo "Error: a suitable python executable was not found. Please set PYTHON_EXE to point to your python.exe."
+      echo "Error: a suitable python executable was not found. Make sure that a python3 or python executable is in your PATH."
       exit 1
    fi
    echo "$exe_python"
@@ -183,6 +178,15 @@ source ${activate_script}
 export exe_python=$(which_python)
 echo "${exe_python} --version"
 ${exe_python} --version
+
+#
+# Create a symlink called python3 within the venv if it doesn't already exist
+#
+if [[ "$exe_python" != *python3* ]]; then
+   exe_python3="${exe_python/python/python3}"
+   echo "Creating symlink ${exe_python3} -> ${exe_python3}"
+   ln -s ${exe_python} ${exe_python3}
+fi
 
 #
 # Uncomment the following to show exported environment variables for debugging.
