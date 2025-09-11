@@ -13,3 +13,7 @@ build/*
 .ccls-cache/
 src/.ccls-cache/
 src/compile_commands.json
+
+# python environment and temporary folders
+.venv
+**/__pycache__/
