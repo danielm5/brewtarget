@@ -360,6 +360,11 @@ def findMesonAndGit():
    global exe_meson
    exe_meson = shutil.which("meson")
    if (exe_meson is None or exe_meson == ""):
+      # try to install with pip
+      log.info('python -m pip install meson')
+      btUtils.abortOnRunFail(subprocess.run([sys.executable, '-m', 'pip', 'install', 'meson']))
+      exe_meson = shutil.which("meson")
+   if (exe_meson is None or exe_meson == ""):
       log.critical('Cannot find meson - please see https://mesonbuild.com/Getting-meson.html for how to install')
       exit(1)
 
