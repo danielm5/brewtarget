@@ -1,0 +1,119 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "debug-config",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release-config",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "multi-config",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build"
+    },
+    {
+      "name": "win64",
+      "hidden": true,
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "mingw64",
+      "hidden": true,
+      "inherits": ["win64"],
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe"
+      }
+    },
+    {
+      "name": "ninja-multiconfig",
+      "hidden": true,
+      "generator": "Ninja Multi-Config"
+    },
+    {
+      "name": "ninja",
+      "hidden": true,
+      "generator": "Ninja"
+    },
+    {
+      "name": "make",
+      "hidden": true,
+      "generator": "MinGW Makefiles",
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "C:/msys64/mingw64/bin/mingw32-make.exe"
+      }
+    },
+    {
+      "name": "mingw64-ninja-multiconfig",
+      "inherits": ["mingw64","ninja-multiconfig", "multi-config"]
+    },
+    {
+      "name": "mingw64-ninja-release",
+      "inherits": ["mingw64","ninja","release-config"]
+    },
+    {
+      "name": "mingw64-ninja-debug",
+      "inherits": ["mingw64","ninja","debug-config"]
+    },
+    {
+      "name": "mingw64-make-release",
+      "inherits": ["mingw64","make","release-config"]
+    },
+    {
+      "name": "mingw64-make-debug",
+      "inherits": ["mingw64","make","debug-config"]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "Debug",
+      "configurePreset": "mingw64-ninja-multiconfig",
+      "configuration": "Debug"
+    },
+    {
+      "name": "Release",
+      "configurePreset": "mingw64-ninja-multiconfig",
+      "configuration": "Release"
+    },
+    {
+      "name": "mingw64-ninja-debug",
+      "configurePreset": "mingw64-ninja-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "mingw64-ninja-release",
+      "configurePreset": "mingw64-ninja-release",
+      "configuration": "Release"
+    },
+    {
+      "name": "mingw64-make-debug",
+      "configurePreset": "mingw64-make-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "mingw64-make-release",
+      "configurePreset": "mingw64-make-release",
+      "configuration": "Release"
+    }
+  ]
+}
