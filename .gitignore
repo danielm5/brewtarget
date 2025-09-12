@@ -9,6 +9,9 @@ build/*
 .vagrant
 *.user
 
+# vscode
+.vscode/
+
 # ccls files
 .ccls-cache/
 src/.ccls-cache/
