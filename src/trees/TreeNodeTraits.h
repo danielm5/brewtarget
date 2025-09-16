@@ -34,6 +34,8 @@
 #include "model/Water.h"
 #include "model/Yeast.h"
 
+#include "StdLibExtra.h" // For std::unreachable
+
 namespace {
    /**
     * \brief When we have an optional property, we can't just hand a std::optional type back to Qt, so we handle both
