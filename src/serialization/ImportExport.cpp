@@ -35,7 +35,7 @@
 #include "model/Style.h"
 #include "model/Water.h"
 #include "model/Yeast.h"
-#include "serialization/json/BeerJson.h"
+//#include "serialization/json/BeerJson.h"
 #include "serialization/xml/BeerXml.h"
 
 namespace {
@@ -273,9 +273,9 @@ bool ImportExport::importFromFiles(std::optional<QStringList> inputFiles) {
       QString userMessage;
       QTextStream userMessageAsStream{&userMessage};
       bool succeeded = false;
-      if (filename.endsWith("json", Qt::CaseInsensitive)) {
+      /*if (filename.endsWith("json", Qt::CaseInsensitive)) {
          succeeded = BeerJson::import(filename, userMessageAsStream);
-      } else if (filename.endsWith("xml", Qt::CaseInsensitive)) {
+      } else*/ if (filename.endsWith("xml", Qt::CaseInsensitive)) {
          succeeded = BeerXML::getInstance().importFromXML(filename, userMessageAsStream);
       } else {
          qInfo() << Q_FUNC_INFO << "Don't understand file extension on" << filename << "so ignoring!";
@@ -331,7 +331,7 @@ bool ImportExport::exportToFile(QList<Recipe      const *> const * recipes,
       qWarning() << Q_FUNC_INFO << "Could not open" << filename << "for writing.";
       userMessageAsStream << QObject::tr("Could not open \"%1\" for writing").arg(filename);
 
-   } else if (filename.endsWith(".json", Qt::CaseInsensitive)) {
+   } /* else if (filename.endsWith(".json", Qt::CaseInsensitive)) {
       //
       // It's not strictly required by the BeerJSON standard, but we'll get a better export of Recipe if we also
       // explicitly export all the ingredients.  This is because, in BeerJSON (unlike BeerXML), the Recipe specification
@@ -368,7 +368,7 @@ bool ImportExport::exportToFile(QList<Recipe      const *> const * recipes,
 
       exporter.close();
       succeeded = true;
-   } else if (filename.endsWith(".xml", Qt::CaseInsensitive)) {
+   } */ else if (filename.endsWith(".xml", Qt::CaseInsensitive)) {
       BeerXML & bxml = BeerXML::getInstance();
       // The slightly non-standard-XML format of BeerXML means the common bit (which gets written by createXmlFile) is
       // just at the start and there is no "closing" bit to write after we write all the data.

@@ -210,14 +210,14 @@ set(filesToCompile_cpp
     ${repoDir}/src/qtModels/tableModels/WaterTableModel.cpp
     ${repoDir}/src/qtModels/tableModels/YeastTableModel.cpp
     ${repoDir}/src/serialization/ImportExport.cpp
-    ${repoDir}/src/serialization/json/BeerJson.cpp
-    ${repoDir}/src/serialization/json/JsonCoding.cpp
-    ${repoDir}/src/serialization/json/JsonMeasureableUnitsMapping.cpp
-    ${repoDir}/src/serialization/json/JsonRecord.cpp
-    ${repoDir}/src/serialization/json/JsonRecordDefinition.cpp
-    ${repoDir}/src/serialization/json/JsonSchema.cpp
-    ${repoDir}/src/serialization/json/JsonUtils.cpp
-    ${repoDir}/src/serialization/json/JsonXPath.cpp
+    # ${repoDir}/src/serialization/json/BeerJson.cpp
+    # ${repoDir}/src/serialization/json/JsonCoding.cpp
+    # ${repoDir}/src/serialization/json/JsonMeasureableUnitsMapping.cpp
+    # ${repoDir}/src/serialization/json/JsonRecord.cpp
+    # ${repoDir}/src/serialization/json/JsonRecordDefinition.cpp
+    # ${repoDir}/src/serialization/json/JsonSchema.cpp
+    # ${repoDir}/src/serialization/json/JsonUtils.cpp
+    # ${repoDir}/src/serialization/json/JsonXPath.cpp
     ${repoDir}/src/serialization/xml/BeerXml.cpp
     ${repoDir}/src/serialization/xml/BtDomErrorHandler.cpp
     ${repoDir}/src/serialization/xml/XercesHelpers.cpp

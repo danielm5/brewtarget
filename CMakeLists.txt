@@ -247,7 +247,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-include_directories(${repoDir}/third-party/valijson/include/)
+#include_directories(${repoDir}/third-party/valijson/include/) #duplicate line 850
 
 include_directories(${repoDir}/src)
 include_directories("${CMAKE_BINARY_DIR}/src") # In case of out-of-source build.
@@ -802,15 +802,15 @@ endif()
 # to build Valijson) and somewhat harder to debug when it goes wrong.  So, instead, per the readme at
 # https://github.com/tristanpenman/valijson, we just added ValiJSON as a git submodule from the command line.
 #
-message(STATUS "Valijson source at  ${CMAKE_CURRENT_SOURCE_DIR}/third-party/valijson")
-# Per comment above, leave the next line commented out unless you want to build the ValiJSON test suite
-#add_subdirectory(third-party/valijson)
-add_compile_definitions(VALIJSON_USE_EXCEPTIONS)
-include_directories(${ROOTDIR}/third-party/valijson/include)
-execute_process(COMMAND git config --global --add safe.directory third-party/valijson
-                WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-execute_process(COMMAND git submodule update --init --recursive
-                WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+# message(STATUS "Valijson source at  ${CMAKE_CURRENT_SOURCE_DIR}/third-party/valijson")
+# # Per comment above, leave the next line commented out unless you want to build the ValiJSON test suite
+# #add_subdirectory(third-party/valijson)
+# add_compile_definitions(VALIJSON_USE_EXCEPTIONS)
+# include_directories(${ROOTDIR}/third-party/valijson/include)
+# execute_process(COMMAND git config --global --add safe.directory third-party/valijson
+#                 WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+# execute_process(COMMAND git submodule update --init --recursive
+#                 WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 #========================================= Find MinGW (only needed on Windows) =========================================
 if(WIN32)
