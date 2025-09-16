@@ -21,7 +21,7 @@
 #include "trees/TreeNodeTraits.h"
 #include "utils/CuriouslyRecurringTemplateBase.h"
 
-#include "stdlib.h" // For std::unreachable
+#include "StdLibExtra.h" // For std::unreachable
 
 /**
  * \class TreeNodeBase Curiously Recurring Template Base for NewTreeNode subclasses

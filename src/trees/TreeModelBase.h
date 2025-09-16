@@ -42,7 +42,7 @@
 #include "utils/CuriouslyRecurringTemplateBase.h"
 #include "utils/TypeTraits.h"
 
-#include "stdlib.h" // For std::unreachable
+#include "StdLibExtra.h" // For std::unreachable
 
 namespace {
    // This is used as a parameter to findFolder to tell it what to do if it doesn't find the requested folder
