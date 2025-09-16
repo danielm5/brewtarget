@@ -24,6 +24,7 @@ on:
     branches:
       - develop
       - "stable/**"
+      - test_mingw64_debug_build
   pull_request:
     branches:
       - develop
