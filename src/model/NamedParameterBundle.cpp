@@ -14,6 +14,7 @@
  * <http://www.gnu.org/licenses/>.
  ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌*/
 #include "model/NamedParameterBundle.h"
+#include "utils/StdLib.h" // For std::unreachable
 
 #include <string>
 #include <stdexcept>
@@ -81,8 +82,7 @@ bool NamedParameterBundle::contains(PropertyPath const & propertyPath) const {
       }
       bundle = &bundle->m_containedBundles.at(**property);
    }
-   // This should actually be unreachable
-   return false;
+   std::unreachable();
 }
 
 template<typename P>

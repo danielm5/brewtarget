@@ -14,6 +14,7 @@
  * <http://www.gnu.org/licenses/>.
  =====================================================================================================================*/
 #include "measurement/NonPhysicalQuantity.h"
+#include "utils/StdLib.h" // For std::unreachable
 
 #include <QDebug>
 
@@ -28,11 +29,8 @@ QString GetLoggableName(NonPhysicalQuantity nonPhysicalQuantity) {
       case NonPhysicalQuantity::OrdinalNumeral : return "OrdinalNumeral";
       case NonPhysicalQuantity::CardinalNumber : return "CardinalNumber";
       case NonPhysicalQuantity::Dimensionless  : return "Dimensionless" ;
-      // In C++23, we'd add:
-      // default: std::unreachable();
    }
-   // In C++23, we'd add:
-   // std::unreachable()
    // It's a coding error if we get here!
    Q_ASSERT(false);
+   std::unreachable();
 }

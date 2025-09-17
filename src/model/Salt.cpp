@@ -23,6 +23,7 @@
 #include "model/NamedParameterBundle.h"
 #include "model/Recipe.h"
 #include "utils/AutoCompare.h"
+#include "utils/StdLib.h" // For std::unreachable
 
 #ifdef BUILDING_WITH_CMAKE
    // Explicitly doing this include reduces potential problems with AUTOMOC when compiling with CMake
@@ -153,7 +154,7 @@ Measurement::PhysicalQuantity Salt::suggestedMeasureFor(Salt::Type const type) {
          return Measurement::PhysicalQuantity::Volume;
       // No default case as we want the compiler to warn us if we missed one
    }
-   return Measurement::PhysicalQuantity::Mass; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 //============================================= "GETTER" MEMBER FUNCTIONS ==============================================
@@ -175,7 +176,7 @@ bool Salt::typeIsAcid(Salt::Type const type) {
          return true;
       // No default case as we want the compiler to warn us if we missed one
    }
-   return false; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 bool Salt::isAcid() const {
@@ -201,8 +202,7 @@ void Salt::setType(Salt::Type type) {
             case Salt::Type::LacticAcid    : newPercentAcid = 88.0; break;
             case Salt::Type::H3PO4         : newPercentAcid = 10.0; break;
             case Salt::Type::AcidulatedMalt: newPercentAcid =  2.0; break;
-            // The next line should be unreachable!
-            default                        : Q_ASSERT(false); break;
+            default                        : Q_ASSERT(false); std::unreachable(); break;
          }
       }
    }
@@ -283,7 +283,7 @@ double Salt::massConcPpm_Ca_perGramPerLiter() const {
       case Salt::Type::AcidulatedMalt: return 0.0;
       // No default case as we want the compiler to warn us if we missed one
    }
-   return 0.0; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 double Salt::massConcPpm_Cl_perGramPerLiter() const {
@@ -298,7 +298,7 @@ double Salt::massConcPpm_Cl_perGramPerLiter() const {
       case Salt::Type::H3PO4         : return 0.0;
       case Salt::Type::AcidulatedMalt: return 0.0;
    }
-   return 0.0; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 double Salt::massConcPpm_CO3_perGramPerLiter() const {
@@ -314,7 +314,7 @@ double Salt::massConcPpm_CO3_perGramPerLiter() const {
       case Salt::Type::AcidulatedMalt: return 0.0;
       // No default case as we want the compiler to warn us if we missed one
    }
-   return 0.0; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 double Salt::massConcPpm_HCO3_perGramPerLiter() const {
@@ -330,7 +330,7 @@ double Salt::massConcPpm_HCO3_perGramPerLiter() const {
       case Salt::Type::AcidulatedMalt: return 0.0;
       // No default case as we want the compiler to warn us if we missed one
    }
-   return 0.0; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 double Salt::massConcPpm_Mg_perGramPerLiter() const {
@@ -346,7 +346,7 @@ double Salt::massConcPpm_Mg_perGramPerLiter() const {
       case Salt::Type::AcidulatedMalt: return 0.0;
       // No default case as we want the compiler to warn us if we missed one
    }
-   return 0.0; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 double Salt::massConcPpm_Na_perGramPerLiter() const {
@@ -362,7 +362,7 @@ double Salt::massConcPpm_Na_perGramPerLiter() const {
       case Salt::Type::AcidulatedMalt: return 0.0;
       // No default case as we want the compiler to warn us if we missed one
    }
-   return 0.0; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 double Salt::massConcPpm_SO4_perGramPerLiter() const {
@@ -378,7 +378,7 @@ double Salt::massConcPpm_SO4_perGramPerLiter() const {
       case Salt::Type::AcidulatedMalt: return 0.0;
       // No default case as we want the compiler to warn us if we missed one
    }
-   return 0.0; // Should be unreachable, but GCC gives a warning if we don't have this
+   std::unreachable();
 }
 
 // This class supports NamedEntity::numRecipesUsedIn

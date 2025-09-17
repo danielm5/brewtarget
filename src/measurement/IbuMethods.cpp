@@ -29,6 +29,7 @@
 #include "Algorithms.h"
 #include "measurement/Unit.h"
 #include "PersistentSettings.h"
+#include "utils/StdLib.h" // For std::unreachable
 
 namespace {
    double circleAreaFromRadius(double const radius) {
@@ -264,5 +265,5 @@ double IbuMethods::getIbus(IbuMethods::IbuCalculationParms const & parms) {
       case IbuMethods::IbuFormula::mIbu   : return mIbu   (parms);
 //      case IbuMethods::IbuFormula::Smph   : return smph   (parms);
    }
-//      std::unreachable();
+   std::unreachable();
 }

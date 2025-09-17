@@ -25,6 +25,7 @@
 #include <QObject>
 
 #include "PersistentSettings.h"
+#include "utils/StdLib.h" // For std::unreachable
 
 namespace {
    //
@@ -98,7 +99,7 @@ double ColorMethods::mcuToSrm(double mcu) {
       case ColorMethods::ColorFormula::Daniel: return daniel(mcu);
       case ColorMethods::ColorFormula::Mosher: return mosher(mcu);
    }
-//      std::unreachable();
+   std::unreachable();
 }
 
 QColor ColorMethods::srmToDisplayColor(double srm) {

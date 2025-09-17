@@ -20,6 +20,7 @@
 #include <QDebug>
 
 #include "utils/EnumStringMapping.h"
+#include "utils/StdLib.h" // For std::unreachable
 
 //
 // Settings we only use in this file.  Strictly we could put these as literals in Measurement::getSettingsName, but
@@ -136,13 +137,10 @@ BtStringConst const & Measurement::getSettingsName(PhysicalQuantity const physic
       case Measurement::PhysicalQuantity::SpecificHeatCapacity: return unitSystem_specificHeatCapacity;
       case Measurement::PhysicalQuantity::HeatCapacity        : return unitSystem_heatCapacity        ;
       case Measurement::PhysicalQuantity::SpecificVolume      : return unitSystem_specificVolume      ;
-      // In C++23, we'd add:
-      // default: std::unreachable();
    }
-   // In C++23, we'd add:
-   // std::unreachable()
    // It's a coding error if we get here
    Q_ASSERT(false);
+   std::unreachable();
 }
 
 EnumStringMapping const Measurement::choiceOfPhysicalQuantityStringMapping {
@@ -179,10 +177,8 @@ Measurement::PhysicalQuantity Measurement::defaultPhysicalQuantity(Measurement::
          return Measurement::defaultPhysicalQuantity<Measurement::ChoiceOfPhysicalQuantity,
                                                      Measurement::ChoiceOfPhysicalQuantity::Mass_Volume_Count>();
    }
-   // Should be unreachable
    Q_ASSERT(false);
-   // Keep the compiler happy
-   return PhysicalQuantity::Mass;
+   std::unreachable();
 }
 
 template<Measurement::PhysicalQuantity const pq> bool isValid(Measurement::PhysicalQuantity const physicalQuantity) {
@@ -210,10 +206,8 @@ bool Measurement::isValid(Measurement::ChoiceOfPhysicalQuantity const choiceOfPh
          return Measurement::isValid<Measurement::ChoiceOfPhysicalQuantity,
                                      Measurement::ChoiceOfPhysicalQuantity::Mass_Volume_Count>(physicalQuantity);
    }
-
-   // Should be unreachable
    Q_ASSERT(false);
-   return false;
+   std::unreachable();
 }
 
 std::vector<Measurement::PhysicalQuantity> const & Measurement::allPossibilities(
@@ -223,10 +217,8 @@ std::vector<Measurement::PhysicalQuantity> const & Measurement::allPossibilities
       case Measurement::ChoiceOfPhysicalQuantity::Mass_Volume        : return allOf_Mass_Volume        ;
       case Measurement::ChoiceOfPhysicalQuantity::Mass_Volume_Count  : return allOf_Mass_Volume_Count  ;
    }
-   // Should be unreachable
    Q_ASSERT(false);
-   // But we have to return something
-   return allOf_Mass_Volume;
+   std::unreachable();
 }
 
 std::vector<int> const & Measurement::allPossibilitiesAsInt(
@@ -237,10 +229,8 @@ std::vector<int> const & Measurement::allPossibilitiesAsInt(
       case Measurement::ChoiceOfPhysicalQuantity::Mass_Volume        : return allOfAsInt_Mass_Volume        ;
       case Measurement::ChoiceOfPhysicalQuantity::Mass_Volume_Count  : return allOfAsInt_Mass_Volume_Count  ;
    }
-   // Should be unreachable
    Q_ASSERT(false);
-   // But we have to return something
-   return allOfAsInt_Mass_Volume;
+   std::unreachable();
 }
 
 template<class S>

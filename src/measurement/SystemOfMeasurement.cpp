@@ -18,6 +18,7 @@
 #include <QDebug>
 
 #include "utils/EnumStringMapping.h"
+#include "utils/StdLib.h" // For std::unreachable
 
 namespace {
    EnumStringMapping const systemOfMeasurementToUniqueName {
@@ -72,13 +73,10 @@ QString Measurement::getDisplayName(Measurement::SystemOfMeasurement const syste
       case Measurement::SystemOfMeasurement::HeatCapacityKilocalories    : return QObject::tr("Heat Capacity Kilocalories per"     );
       case Measurement::SystemOfMeasurement::HeatCapacityJoules          : return QObject::tr("Heat Capacity Joules per"           );
       case Measurement::SystemOfMeasurement::HeatCapacityBtus            : return QObject::tr("Heat Capacity Btus per"             );
-      // In C++23, we'd add:
-      // default: std::unreachable();
    }
-   // In C++23, we'd add:
-   // std::unreachable()
    // It's a coding error if we get here
    Q_ASSERT(false);
+   std::unreachable();
 }
 
 QString Measurement::getUniqueName(SystemOfMeasurement systemOfMeasurement) {

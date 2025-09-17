@@ -41,8 +41,7 @@
 #include "trees/TreeModelChangeGuard.h"
 #include "utils/CuriouslyRecurringTemplateBase.h"
 #include "utils/TypeTraits.h"
-
-#include "StdLibExtra.h" // For std::unreachable
+#include "utils/StdLib.h" // For std::unreachable
 
 namespace {
    // This is used as a parameter to findFolder to tell it what to do if it doesn't find the requested folder
