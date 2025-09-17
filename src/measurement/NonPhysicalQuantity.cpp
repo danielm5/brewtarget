@@ -31,6 +31,5 @@ QString GetLoggableName(NonPhysicalQuantity nonPhysicalQuantity) {
       case NonPhysicalQuantity::Dimensionless  : return "Dimensionless" ;
    }
    // It's a coding error if we get here!
-   Q_ASSERT(false);
    std::unreachable();
 }

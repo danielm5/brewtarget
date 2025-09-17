@@ -21,7 +21,7 @@
 #include "trees/TreeNodeTraits.h"
 #include "utils/CuriouslyRecurringTemplateBase.h"
 
-#include "utils/StdLib.h" // For std::unreachable
+#include <qassert.h> // For Q_ASSERT and Q_UNREACHABLE
 
 /**
  * \class TreeNodeBase Curiously Recurring Template Base for NewTreeNode subclasses
@@ -466,7 +466,7 @@ public:
          case TreeNodeTraits<Folder, NE>::ColumnIndex::Path     : return lhs.path    () < rhs.path    ();
          case TreeNodeTraits<Folder, NE>::ColumnIndex::FullPath : return lhs.fullPath() < rhs.fullPath();
       }
-      std::unreachable();
+      Q_UNREACHABLE(); // We should never get here
    }
 
    // Have to override the version in \c TreeNodeBase as that will give Folder::staticMetaObject.className() rather

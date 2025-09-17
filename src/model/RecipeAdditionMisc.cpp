@@ -20,7 +20,8 @@
 #include "model/NamedParameterBundle.h"
 #include "model/Boil.h"
 #include "model/BoilStep.h"
-#include "utils/StdLib.h" // For std::unreachable
+
+#include <qassert.h> // For Q_ASSERT and Q_UNREACHABLE
 
 #ifdef BUILDING_WITH_CMAKE
    // Explicitly doing this include reduces potential problems with AUTOMOC when compiling with CMake
@@ -131,7 +132,7 @@ RecipeAdditionMisc::Use  RecipeAdditionMisc::use() const {
 
       // No default case as we want the compiler to warn us if we missed a case above
    }
-   std::unreachable();
+   Q_UNREACHABLE(); // We should never get here
 }
 
 NamedEntity * RecipeAdditionMisc::ensureExists(BtStringConst const & property) {

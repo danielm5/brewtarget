@@ -75,7 +75,6 @@ QString Measurement::getDisplayName(Measurement::SystemOfMeasurement const syste
       case Measurement::SystemOfMeasurement::HeatCapacityBtus            : return QObject::tr("Heat Capacity Btus per"             );
    }
    // It's a coding error if we get here
-   Q_ASSERT(false);
    std::unreachable();
 }
 

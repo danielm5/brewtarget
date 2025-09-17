@@ -139,7 +139,6 @@ BtStringConst const & Measurement::getSettingsName(PhysicalQuantity const physic
       case Measurement::PhysicalQuantity::SpecificVolume      : return unitSystem_specificVolume      ;
    }
    // It's a coding error if we get here
-   Q_ASSERT(false);
    std::unreachable();
 }
 
@@ -177,7 +176,6 @@ Measurement::PhysicalQuantity Measurement::defaultPhysicalQuantity(Measurement::
          return Measurement::defaultPhysicalQuantity<Measurement::ChoiceOfPhysicalQuantity,
                                                      Measurement::ChoiceOfPhysicalQuantity::Mass_Volume_Count>();
    }
-   Q_ASSERT(false);
    std::unreachable();
 }
 
@@ -206,7 +204,6 @@ bool Measurement::isValid(Measurement::ChoiceOfPhysicalQuantity const choiceOfPh
          return Measurement::isValid<Measurement::ChoiceOfPhysicalQuantity,
                                      Measurement::ChoiceOfPhysicalQuantity::Mass_Volume_Count>(physicalQuantity);
    }
-   Q_ASSERT(false);
    std::unreachable();
 }
 
@@ -217,7 +214,6 @@ std::vector<Measurement::PhysicalQuantity> const & Measurement::allPossibilities
       case Measurement::ChoiceOfPhysicalQuantity::Mass_Volume        : return allOf_Mass_Volume        ;
       case Measurement::ChoiceOfPhysicalQuantity::Mass_Volume_Count  : return allOf_Mass_Volume_Count  ;
    }
-   Q_ASSERT(false);
    std::unreachable();
 }
 
@@ -229,7 +225,6 @@ std::vector<int> const & Measurement::allPossibilitiesAsInt(
       case Measurement::ChoiceOfPhysicalQuantity::Mass_Volume        : return allOfAsInt_Mass_Volume        ;
       case Measurement::ChoiceOfPhysicalQuantity::Mass_Volume_Count  : return allOfAsInt_Mass_Volume_Count  ;
    }
-   Q_ASSERT(false);
    std::unreachable();
 }
 

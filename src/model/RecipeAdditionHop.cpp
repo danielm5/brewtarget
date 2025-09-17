@@ -137,7 +137,7 @@ RecipeAdditionHop::Use RecipeAdditionHop::use() const {
 
       // No default case as we want the compiler to warn us if we missed a case above
    }
-   std::unreachable();
+   std::unreachable(); // We should never get here
 }
 
 bool RecipeAdditionHop::isFirstWort() const {

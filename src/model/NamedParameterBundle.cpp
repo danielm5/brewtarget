@@ -82,7 +82,7 @@ bool NamedParameterBundle::contains(PropertyPath const & propertyPath) const {
       }
       bundle = &bundle->m_containedBundles.at(**property);
    }
-   std::unreachable();
+   std::unreachable(); // We should never get here
 }
 
 template<typename P>

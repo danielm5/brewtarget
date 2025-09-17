@@ -27,7 +27,6 @@
 #include <QSqlField>
 #include <QSqlRecord>
 #include <QVector>
-#include <QtAssert>
 
 #include "database/BtSqlQuery.h"
 #include "database/Database.h"
@@ -36,6 +35,7 @@
 #include "model/NamedParameterBundle.h"
 #include "utils/MetaTypes.h"
 #include "utils/OptionalHelpers.h"
+#include "utils/StdLib.h" // For std::unreachable
 
 #ifdef BUILDING_WITH_CMAKE
    // Explicitly doing this include reduces potential problems with AUTOMOC when compiling with CMake
@@ -61,7 +61,7 @@ namespace {
          // No default case needed as compiler should warn us if any options covered above
       }
       // It's a coding error if we get here!
-      Q_UNREACHABLE_RETURN(nullptr);
+      std::unreachable();
    }
 
    /**
@@ -554,7 +554,7 @@ namespace {
          // No default case needed as compiler should warn us if any options covered above
       }
       // It's a coding error if we get here
-      Q_UNREACHABLE_RETURN({});
+      std::unreachable();
    }
 
    using TableColumnAndType = std::tuple<QString, QString, ObjectStore::FieldType>;
@@ -730,7 +730,7 @@ public:
             case ObjectStore::FieldType::Unit: {
                // Since Unit is stored as a pointer, it is never wrapped in std::optional, so it's a coding error if we
                // get here
-               Q_UNREACHABLE();
+               std::unreachable();
                propertyValue = QVariant();
                return;
 
@@ -738,7 +738,7 @@ public:
             // No default case needed as compiler should warn us if any options covered above
          }
          // It's a coding error if we get here!
-         Q_UNREACHABLE();
+         std::unreachable();
       }
 
       //
@@ -785,7 +785,7 @@ public:
       }
 
       // It's a coding error if we get here
-      Q_UNREACHABLE();
+      std::unreachable();
    }
 
    /**
@@ -918,7 +918,7 @@ public:
             // No default case needed as compiler should warn us if any options covered above
          }
          // It's a coding error if we get here!
-         Q_UNREACHABLE();
+         std::unreachable();
       }
 
       //
@@ -977,7 +977,7 @@ public:
       }
 
       // It's a coding error if we get here!
-      Q_UNREACHABLE();
+      std::unreachable();
    }
 
    /**
@@ -1339,7 +1339,7 @@ QString ObjectStore::getDisplayName(ObjectStore::FieldType const fieldType) {
       case ObjectStore::FieldType::Enum  : return "ObjectStore::FieldType::Enum"  ;
       case ObjectStore::FieldType::Unit  : return "ObjectStore::FieldType::Unit"  ;
    }
-   Q_UNREACHABLE_RETURN({});
+   std::unreachable();
 }
 
 ObjectStore::ObjectStore(char const *             const   className,

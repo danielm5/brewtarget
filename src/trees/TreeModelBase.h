@@ -34,6 +34,7 @@
 #include <QString>
 #include <QStringBuilder> // Needed for efficient QString concatenation operator (%)
 #include <QVariant>
+#include <qassert.h> // For Q_ASSERT and Q_UNREACHABLE
 
 #include "database/ObjectStoreWrapper.h"
 #include "trees/TreeNode.h"
@@ -41,7 +42,6 @@
 #include "trees/TreeModelChangeGuard.h"
 #include "utils/CuriouslyRecurringTemplateBase.h"
 #include "utils/TypeTraits.h"
-#include "utils/StdLib.h" // For std::unreachable
 
 namespace {
    // This is used as a parameter to findFolder to tell it what to do if it doesn't find the requested folder
@@ -876,7 +876,7 @@ public:
          return this->insertChild(static_cast<TreeFolderNode<NE> &>(*parentNode), parentIndex, row, element);
       }
 
-      std::unreachable();
+      Q_UNREACHABLE_RETURN({}); // We should never get here
    }
 
    template<std::derived_from<TreeNode> TreeNodeType>
